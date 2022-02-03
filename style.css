@@ -1,0 +1,17 @@
+.card{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap:30px;
+    column-gap: 20px;
+
+    
+}
+.card div{
+    width: 300px;
+    border: 2px solid rgb(16, 96, 143);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}

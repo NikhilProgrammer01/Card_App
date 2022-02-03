@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+   <h1> <a href="./index2.html">go back where you belong</a></h1>
+
+   <p id="itemsid"></p>
+   <div class="card" >
+              
+                
+</div>  
+</body>
+<script>
+
+    // console.log(json)
+
+
+
+    (function () {
+    function apiCall(method, url, data) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest;
+            xhr.open(method, url, true);
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        resolve(this.response);
+                    } else {
+                        reject("Errr");
+                    }
+                }
+            }
+            xhr.send();
+        })
+    }
+    const mydata = localStorage.getItem('items');
+    json = JSON.parse(mydata);
+    //document.getElementById('itemsid').innerHTML=mydata;
+    populateData(json);
+
+    // apiCall('GET', 'json', true)
+    //     .then(function (res) {
+    //          console.log(JSON.parse(res))
+    //         var data = JSON.parse(res);
+    //         singleItem = data.items;
+    //         //console.log(singleItem);
+    //         populateData(singleItem);
+    //     })
+
+    function populateData(jsondata) {
+        //console.log(singleItem)
+        var card = document.getElementsByClassName('card')[0];
+        jsondata.forEach(element => {
+            card.innerHTML += cardPopulate(element)
+        });
+       removeData(jsondata);
+    }
+
+    function cardPopulate(data) {
+
+        var myvar = '<div class="mydiv demo" >' +
+                    '            <img src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png" style="width: 270px;height: 200px;" alt="...">' + '<span>' + data.id + '</span>' +
+                    '              <h4 class="card-title">' + data.name + '</h4>' +
+                    '              <button class="btn btn-outline-primary removeBtn" >remove</button>' +
+                    '          </div>';
+
+
+                return myvar;
+    }   
+
+    function removeData(getData) {
+        var btnDelete = document.getElementsByClassName('btn');
+        for(i = 0; i < btnDelete.length; i++) {
+            // console.log(btnDelete[i]
+            btnDelete[i].addEventListener("click", function() {
+                removeCurrentID = this.id;
+                // for(i = 0; i < getData.length; i++){
+                    removeData = getData.map((value,index) => value.id == removeCurrentID ? index : "").filter(value => value !== '')[0];
+                    // console.log(getData[i].id == removeCurrentID ? 'index' : '');
+                    getData.splice(removeData,1)
+                    // localStorage.removeItem("items");
+                    localStorage.setItem('items',JSON.stringify(getData));
+                    location.reload()
+                    console.log(getData)
+                // }
+            })
+        }
+        // console.log(btnDelete)
+    }
+
+})();
+
+
+</script>
+</html>
